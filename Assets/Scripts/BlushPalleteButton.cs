@@ -9,7 +9,7 @@ namespace TestTask
         public override void OnClick()
         {
             base.OnClick();
-            BlushBrushItem.Brush.ChangeMaskColor(assignedColor);
+            BlushBrushItem.Brush.SavePalettePosition(transform.position, assignedColor);
         }
     }
 }

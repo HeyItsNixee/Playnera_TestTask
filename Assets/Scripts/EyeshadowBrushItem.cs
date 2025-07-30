@@ -3,16 +3,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace TestTask
 {
-    public class BlushBrushItem : DraggableItem
+    public class EyeshadowBrushItem : DraggableItem
     {
         [SerializeField] private Image colorMask;
         [Space]
         [SerializeField] private Transform positionToGrab;
-
         private Color bufferedColor;
-        public static BlushBrushItem Brush { get; private set; }
+        public static EyeshadowBrushItem Brush { get; private set; }
         public Color CurrentColor => bufferedColor;
 
         protected override void Start()
@@ -20,7 +20,7 @@ namespace TestTask
             base.Start();
             Brush = this;
             ClearColorMask();
-            OnRelease += Player.PlayerChar.AddBlush;
+            OnRelease += Player.PlayerChar.AddEyeshadows;
         }
 
         private void OnEnable()
@@ -28,19 +28,19 @@ namespace TestTask
             ClearColorMask();
         }
 
-        public void SavePalettePosition(Vector3 position, Color color)
-        {
-            StartCoroutine(TakeShadows(position, color));
-        }
-
         public void ClearColorMask()
         {
             colorMask.gameObject.SetActive(false);
         }
+        
+        public void SavePalettePosition(Vector3 palettePos, Color color)
+        {
+            StartCoroutine(TakeShadows(palettePos, color));
+        }
 
         protected override IEnumerator ReturnCoroutine()
         {
-            if (Player.PlayerChar.BlushTrigger.IsInstrumentInside)
+            if (Player.PlayerChar.EyeshadowTrigger.IsInstrumentInside)
             {
                 //=======APPLY==========
                 itemCollider.enabled = false;
@@ -55,8 +55,9 @@ namespace TestTask
             itemCollider.enabled = false;
             Tween returnTween = transform.DOMove(originalPos, 1f, false);
             yield return returnTween.WaitForCompletion();
+
             OnReturn?.Invoke();
-            Player.PlayerChar.BlushTrigger.UpdateState(false);
+            Player.PlayerChar.EyeshadowTrigger.UpdateState(false);
         }
 
         private IEnumerator TakeShadows(Vector3 palettePos, Color color)
@@ -83,7 +84,7 @@ namespace TestTask
 
         private void OnDestroy()
         {
-            OnRelease -= Player.PlayerChar.AddBlush;
+            OnRelease -= Player.PlayerChar.AddEyeshadows;
         }
     }
 }

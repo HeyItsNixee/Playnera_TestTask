@@ -1,22 +1,24 @@
+using System;
 using UnityEngine;
-
 
 namespace TestTask
 {
-    public class EyeshadowTrigger : MonoBehaviour
+    public class PimplesTrigger : MonoBehaviour
     {
         private bool instrumentInside = false;
         public bool IsInstrumentInside => instrumentInside;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (EyeshadowBrushItem.Brush != null && EyeshadowBrushItem.Brush.ItemCollider == other)
+            //var b = other.transform.parent.gameObject.GetComponent<CreamBrushItem>();
+            if (CreamBrushItem.CreamBrush != null && CreamBrushItem.CreamBrush.ItemCollider == other)
                 instrumentInside = true;
+                //Player.PlayerChar.ClearPimples();
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (EyeshadowBrushItem.Brush != null && EyeshadowBrushItem.Brush.ItemCollider == other)
+            if (CreamBrushItem.CreamBrush != null && CreamBrushItem.CreamBrush.ItemCollider == other)
                 instrumentInside = false;
         }
 
